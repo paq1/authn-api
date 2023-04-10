@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  app:
+    image: ppaquin/authn-api:latest
+    ports:
+      - "8002:8000"
+    depends_on:
+      - db
+    environment:
+      - ROCKET_ADDRESS=0.0.0.0
+      - ROCKET_PORT=8000
+      - MONGO_URI=mongodb://db:27017
+    networks:
+      - authn-network
+  db:
+    image: mongo:latest
+    #    ports:
+    #      - "27017:27017"
+    volumes:
+      - authn_db_data:/data/db
+    networks:
+      - authn-network
+volumes:
+  authn_db_data:
+networks:
+  authn-network:
+#    driver: bridge
