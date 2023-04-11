@@ -9,16 +9,16 @@ pub trait ClientMongoComponent {
             .expect("mongodb://localhost:27017");
 
         let mut client_option = ClientOptions::parse(uri).await?;
-        client_option.app_name = Some(String::from("Sutom App"));
+        client_option.app_name = Some(String::from("Authn"));
         Client::with_options(client_option)
     }
 
-    async fn collection_player() -> Result<Collection<Document>, mongodb::error::Error> {
+    async fn collection_user() -> Result<Collection<Document>, mongodb::error::Error> {
         Ok(
             Self::connection()
                 .await?
-                .database("sutom")
-                .collection("player")
+                .database("authn")
+                .collection("users")
         )
     }
 }
