@@ -5,6 +5,7 @@ use rocket::{Build, Rocket};
 use crate::api::components::app_launcher::AppLauncher;
 
 mod api;
+mod core;
 mod models;
 
 #[launch]
