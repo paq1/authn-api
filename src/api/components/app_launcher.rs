@@ -5,6 +5,7 @@ use crate::api::routes::user_read_router::hello_world;
 use crate::api::routes::user_read_router::login;
 use crate::api::routes::user_write_router::create_new_account;
 use crate::api::services::jwt_token_service::JwtTokenService;
+use crate::api::services::password_service_impl::PasswordServiceImpl;
 use crate::api::services::user_repository_mongo::UserRepositoryMongo;
 
 pub struct AppLauncher;
@@ -16,6 +17,7 @@ impl AppLauncher {
                 rocket::build()
                     .manage(user_repository)
                     .manage(JwtTokenService::new())
+                    .manage(PasswordServiceImpl::new())
                     .attach(CORS)
                     .mount(
                         "/",
