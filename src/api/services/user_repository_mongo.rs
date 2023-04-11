@@ -56,8 +56,7 @@ impl UserRepository<User, Result<InsertOneResult, CustomError>> for UserReposito
                     })
                     .unwrap_or(Err(CustomError::new("impossible de recupere le joueur")))
             })
-            .unwrap_or(Err(CustomError::new("impossible de recupere le joueur")))
-            .map_err(|err| CustomError::new(err.message.as_str()))
+            .unwrap_or_else(|err| Err(CustomError::new(format!("{}", err.to_string()).as_str())))
     }
 }
 
@@ -96,8 +95,7 @@ impl UserRepositoryMongo {
                     })
                     .unwrap_or(Err(CustomError::new("impossible de recupere le joueur")))
             })
-            .unwrap()
-            .map_err(|err| CustomError::new(err.message.as_str()))
+            .unwrap_or_else(|err| Err(CustomError::new(format!("{}", err.to_string()).as_str())))
     }
 
     async fn find_all(&self) -> Result<Vec<User>, Error> {

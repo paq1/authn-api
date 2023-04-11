@@ -53,17 +53,9 @@ pub async fn login(
                 status::Custom(
                     Status::BadRequest,
                     Json(
-                        JsonDataResponse::new("mdp incorrect")
+                        JsonDataResponse::new("login incorrect")
                     )
                 )
             )
         )
-        .map_err(|err| {
-            status::Custom(
-                Status::BadRequest,
-                Json(
-                    JsonDataResponse::new("erreur login")
-                )
-            )
-        })
 }
