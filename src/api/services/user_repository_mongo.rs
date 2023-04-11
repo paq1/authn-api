@@ -35,6 +35,30 @@ impl UserRepository<User, Result<InsertOneResult, CustomError>> for UserReposito
             }
         }
     }
+
+    async fn fetch_one_by_pseudo(&self, pseudo: String) -> Result<User, CustomError> {
+        self.collection
+            .find_one(
+                Some(
+                    doc! {
+                        "pseudo": pseudo.as_str()
+                    }
+                ),
+                None
+            )
+            .await
+            .map(|dbo_doc_opt|{
+                dbo_doc_opt
+                    .map(|dbo_doc| {
+                        let user_dbo: UserDbo = dbo_doc.into();
+                        let user: User = user_dbo.into();
+                        Ok(user)
+                    })
+                    .unwrap_or(Err(CustomError::new("impossible de recupere le joueur")))
+            })
+            .unwrap_or(Err(CustomError::new("impossible de recupere le joueur")))
+            .map_err(|err| CustomError::new(err.message.as_str()))
+    }
 }
 
 impl UserRepositoryMongo {
