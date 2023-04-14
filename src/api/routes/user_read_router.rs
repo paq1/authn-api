@@ -11,13 +11,6 @@ use crate::core::services::user_repository::UserRepository;
 use crate::models::views::claims::Claims;
 use crate::models::views::json_data_response::JsonDataResponse;
 
-#[get("/hello-world")]
-pub async fn hello_world() -> Json<JsonDataResponse> {
-    Json(
-        JsonDataResponse::new("hello world 💩")
-    )
-}
-
 #[get("/authn/login/<pseudo>/<mdp>")]
 pub async fn login(
     user_repository: &State<UserRepositoryMongo>,
