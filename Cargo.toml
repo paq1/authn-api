@@ -13,3 +13,4 @@ chrono = "0.4.24"
 uuid = "1.3.1"
 jsonwebtoken = "8.3.0"
 bcrypt = "0.14.0"
+auth-lib-paq1 = { git = "https://github.com/paq1/auth-lib-paq1.git" }

@@ -65,9 +65,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "auth-lib-paq1"
+version = "0.1.1"
+source = "git+https://github.com/paq1/auth-lib-paq1.git#61de10c1811ba095f730e1c0054aff410f0a8011"
+dependencies = [
+ "bcrypt",
+ "jsonwebtoken",
+ "uuid",
+]
+
+[[package]]
 name = "authn-api"
 version = "0.1.0"
 dependencies = [
+ "auth-lib-paq1",
  "bcrypt",
  "chrono",
  "dotenv",

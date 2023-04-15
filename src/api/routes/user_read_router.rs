@@ -1,11 +1,11 @@
+use auth_lib_paq1::core::password::services::password_service::PasswordService;
+use auth_lib_paq1::prelude::password::services::password_service_impl::PasswordServiceImpl;
 use rocket::http::Status;
 use rocket::response::status;
 use rocket::serde::json::Json;
 use rocket::State;
 use crate::api::services::jwt_token_service::JwtTokenService;
-use crate::api::services::password_service_impl::PasswordServiceImpl;
 use crate::api::services::user_repository_mongo::UserRepositoryMongo;
-use crate::core::services::password_service::PasswordService;
 use crate::core::services::token_services::TokenService;
 use crate::core::services::user_repository::UserRepository;
 use crate::models::views::claims::Claims;
