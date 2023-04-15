@@ -1,24 +1,28 @@
 use bcrypt::{DEFAULT_COST, hash_with_salt};
+use crate::core::services::env_service::EnvService;
 use crate::core::services::password_service::PasswordService;
 
-pub struct PasswordServiceImpl;
+pub struct PasswordServiceImpl {
+    env_service: Box<dyn EnvService>
+}
 
 impl PasswordServiceImpl {
-    pub fn new() -> Self {
-        Self {}
+    pub fn new(env_service: Box<dyn EnvService>) -> Self {
+        Self {
+            env_service
+        }
     }
 
-    pub fn salt_u8_16() -> [u8;16] {
-        Self::salt_string_reformatted(16)
+    pub fn salt_u8_16(&self) -> [u8;16] {
+        self.salt_string_reformatted(16)
             .as_bytes()
             .to_vec()[..16]
             .try_into()
             .unwrap()
     }
 
-    pub fn salt_string_reformatted(length: u32) -> String {
-        let salt = std::env::var("SECRET_SALT")
-            .expect("Pas de sel dans les venv.");
+    pub fn salt_string_reformatted(&self, length: u32) -> String {
+        let salt = self.env_service.get_salt();
 
         Self::pad_with_zero(salt, length)
     }
@@ -42,7 +46,7 @@ impl PasswordServiceImpl {
 impl PasswordService for PasswordServiceImpl {
     fn create_hash_password(&self, password: String) -> String {
 
-        let salt: [u8;16] = Self::salt_u8_16();
+        let salt: [u8;16] = self.salt_u8_16();
 
         let hashed = hash_with_salt(
             password,
