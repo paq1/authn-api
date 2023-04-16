@@ -1,6 +1,6 @@
 [package]
 name = "authn-api"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -11,6 +11,4 @@ mongodb = "2.1"
 dotenv = "0.15.0"
 chrono = "0.4.24"
 uuid = "1.3.1"
-jsonwebtoken = "8.3.0"
-bcrypt = "0.14.0"
-auth-lib-paq1 = { git = "https://github.com/paq1/auth-lib-paq1.git", version = "0.2.0" }
+auth-lib-paq1 = { git = "https://github.com/paq1/auth-lib-paq1.git", version = "0.3.0" }
