@@ -1,5 +1,5 @@
-use auth_lib_paq1::prelude::password::services::password_service_impl::PasswordServiceImpl;
-use auth_lib_paq1::prelude::token::jwt_token_service::JwtTokenService;
+use easy_auth::prelude::password::services::password_service_impl::PasswordServiceImpl;
+use easy_auth::prelude::token::jwt_token_service::JwtTokenService;
 use rocket::{Build, Rocket, routes};
 use crate::api::components::cors::CORS;
 use crate::models::errors::custom::CustomError;
