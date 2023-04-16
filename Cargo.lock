@@ -65,23 +65,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "auth-lib-paq1"
-version = "0.3.0"
-source = "git+https://github.com/paq1/auth-lib-paq1.git#f418f6d78e596578431c8d84cbc2366ddcd41b6e"
-dependencies = [
- "bcrypt",
- "jsonwebtoken",
- "serde",
- "uuid",
-]
-
-[[package]]
 name = "authn-api"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
- "auth-lib-paq1",
  "chrono",
  "dotenv",
+ "easy-auth",
  "mongodb",
  "rocket",
  "uuid",
@@ -453,6 +442,17 @@ name = "dotenv"
 version = "0.15.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "77c90badedccf4105eca100756a0b1289e191f6fcbdadd3cee1d2f614f97da8f"
+
+[[package]]
+name = "easy-auth"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c10d73ad34efc3951bea7b2d1ec642ed8af7fe9e264fe249f11b0a694406243b"
+dependencies = [
+ "bcrypt",
+ "jsonwebtoken",
+ "serde",
+]
 
 [[package]]
 name = "either"

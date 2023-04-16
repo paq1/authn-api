@@ -1,5 +1,5 @@
-use auth_lib_paq1::core::password::services::password_service::PasswordService;
-use auth_lib_paq1::prelude::password::services::password_service_impl::PasswordServiceImpl;
+use easy_auth::core::password::services::password_service::PasswordService;
+use easy_auth::prelude::password::services::password_service_impl::PasswordServiceImpl;
 use rocket::http::Status;
 use rocket::response::status;
 use rocket::serde::json::Json;
