@@ -66,8 +66,8 @@ dependencies = [
 
 [[package]]
 name = "auth-lib-paq1"
-version = "0.2.0"
-source = "git+https://github.com/paq1/auth-lib-paq1.git#c4be4aa007bdc1d03278a02b33ab5d21363b308d"
+version = "0.3.0"
+source = "git+https://github.com/paq1/auth-lib-paq1.git#f418f6d78e596578431c8d84cbc2366ddcd41b6e"
 dependencies = [
  "bcrypt",
  "jsonwebtoken",
@@ -80,10 +80,8 @@ name = "authn-api"
 version = "0.1.0"
 dependencies = [
  "auth-lib-paq1",
- "bcrypt",
  "chrono",
  "dotenv",
- "jsonwebtoken",
  "mongodb",
  "rocket",
  "uuid",
