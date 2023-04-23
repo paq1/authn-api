@@ -19,11 +19,11 @@ pub fn authenticated(
                 .decode::<Claims>(token.as_str());
 
             claims_res
-                .map_err(|err| {
+                .map_err(|_| {
                     status::Custom(
-                        Status::Unauthorized,
+                        Status::Forbidden,
                         Json(
-                            JsonDataResponse::new(err.to_string().as_str())
+                            JsonDataResponse::new("vous n'etes pas authentifie")
                         )
                     )
                 })
