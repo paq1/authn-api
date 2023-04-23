@@ -34,7 +34,7 @@ pub async fn login(
                 );
 
                 let token = jwt_token_service.encode(claims);
-                let message = format!("token : {token}");
+                let message = format!("{token}");
                 Ok(Json(JsonDataResponse::new(message.as_str())))
             } else {
                 Err(
