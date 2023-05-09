@@ -1,9 +1,11 @@
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
+
 use rocket::futures::TryFutureExt;
 use rocket::tokio;
 use rocket::tokio::task::JoinHandle;
 use rocket::tokio::time::sleep;
+
 use crate::core::services::authz_service::AuthzService;
 use crate::core::shared::authz_card::AuthzCard;
 use crate::models::errors::custom::CustomError;
@@ -19,16 +21,17 @@ impl AuthzServiceImpl {
         let authorizations_arc = Arc::new(Mutex::new(vec![]));
 
         let th: JoinHandle<_> = tokio::spawn( {
-            println!("lancement du thread");
+
             let cloned_authz = Arc::clone(&authorizations_arc);
             let url = authz_url.clone();
             async move {
                 loop {
-                    println!("health");
-                    let mut new_data = Self::get_authorizations_from_api(url.as_str()).await?;
+                    println!("sync with authz api");
+                    // je ne fais pas un await? car si authz ne rep pas 1 a ce moment, ca KO le thread
+                    let mut new_data = Self::get_authorizations_from_api(url.as_str()).await.unwrap_or(vec![]);
                     cloned_authz.lock().unwrap().clear();
                     cloned_authz.lock().unwrap().append(&mut new_data);
-                    sleep(Duration::from_secs(2)).await;
+                    sleep(Duration::from_secs(1)).await;
                 }
             }
         });
