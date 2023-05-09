@@ -20,7 +20,7 @@ impl AppLauncher {
         let user_repository = UserRepositoryMongo::new()
             .await
             .map_err(|err| CustomError::new(err.to_string().as_str()))?;
-        let env_service = Box::new(EnvServiceImpl {});
+        let env_service = EnvServiceImpl {};
 
         Ok(
             rocket::build()
