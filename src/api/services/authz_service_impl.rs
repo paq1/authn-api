@@ -64,10 +64,10 @@ impl Drop for AuthzServiceImpl {
 }
 
 impl AuthzService for AuthzServiceImpl {
-    fn evaluate(&self, resource: &str, action: &str, pseudo: &str) -> Result<bool, CustomError> {
+    fn evaluate(&self, resource: &str, action: &str, pseudo: &str) -> Result<(), CustomError> {
         self.authorizations.lock().unwrap().iter()
             .find(|card| card.resource.as_str() == resource && card.action == action && card.users.contains(&pseudo.to_string()))
-            .map(|_| Ok(true))
+            .map(|_| Ok(()))
             .unwrap_or(Err(CustomError::new("not authorised")))
     }
 }
