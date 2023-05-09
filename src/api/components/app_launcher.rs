@@ -1,14 +1,15 @@
 use easy_auth::prelude::password::services::password_service_impl::PasswordServiceImpl;
 use easy_auth::prelude::token::jwt_token_service::JwtTokenService;
 use rocket::{Build, Rocket, routes};
+
 use crate::api::components::cors::CORS;
-use crate::models::errors::custom::CustomError;
-use crate::api::routes::user_read_router::login;
 use crate::api::routes::user_read_router::get_users;
+use crate::api::routes::user_read_router::login;
 use crate::api::routes::user_write_router::create_new_account;
 use crate::api::services::env_service_impl::EnvServiceImpl;
 use crate::api::services::user_repository_mongo::UserRepositoryMongo;
 use crate::core::services::env_service::EnvService;
+use crate::models::errors::custom::CustomError;
 
 pub struct AppLauncher;
 
