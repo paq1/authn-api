@@ -28,10 +28,17 @@ impl AuthzServiceImpl {
                 loop {
                     println!("sync with authz api");
                     // je ne fais pas un await? car si authz ne rep pas 1 a ce moment, ca KO le thread
-                    let mut new_data = Self::get_authorizations_from_api(url.as_str()).await.unwrap_or(vec![]);
+
+                    let old_authz = cloned_authz.lock()
+                        .unwrap()
+                        .clone()
+                        .into_iter()
+                        .collect::<Vec<_>>();
+
+                    let mut new_data = Self::get_authorizations_from_api(url.as_str()).await.unwrap_or(old_authz);
                     cloned_authz.lock().unwrap().clear();
                     cloned_authz.lock().unwrap().append(&mut new_data);
-                    sleep(Duration::from_secs(1)).await;
+                    sleep(Duration::from_secs(10 * 60)).await;
                 }
             }
         });
