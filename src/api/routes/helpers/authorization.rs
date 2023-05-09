@@ -4,6 +4,8 @@ use rocket::http::Status;
 use rocket::response::status;
 use rocket::serde::json::Json;
 use crate::api::routes::headers::request_headers::RequestHeaders;
+use crate::api::services::authz_service_impl::AuthzServiceImpl;
+use crate::core::services::authz_service::AuthzService;
 use crate::models::views::claims::Claims;
 use crate::models::views::json_data_response::JsonDataResponse;
 
@@ -36,6 +38,26 @@ pub fn authenticated(
                     Json(
                         JsonDataResponse::new("vous n'etes pas authentifié")
                     )
+                )
+            )
+        )
+}
+
+pub fn authorised(
+    request_headers: &RequestHeaders,
+    jwt_token_service: &JwtTokenService,
+    authz_service: &AuthzServiceImpl,
+    resource: &str,
+    action: &str
+) -> Result<Claims, status::Custom<Json<JsonDataResponse>>> {
+    let ctx = authenticated(request_headers, jwt_token_service)?;
+    authz_service
+        .evaluate(resource, action, ctx.pseudo.as_str())
+        .map(move |_| ctx)
+        .map_err(|_| status::Custom(
+                Status::Unauthorized,
+                Json(
+                    JsonDataResponse::new("vous n'etes pas authorisé")
                 )
             )
         )
