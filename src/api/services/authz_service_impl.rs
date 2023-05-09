@@ -1,8 +1,7 @@
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
 use std::time::Duration;
 use rocket::futures::TryFutureExt;
 use rocket::tokio;
-use rocket::tokio::sync::Mutex;
 use rocket::tokio::task::JoinHandle;
 use rocket::tokio::time::sleep;
 use crate::core::services::authz_service::AuthzService;
@@ -27,8 +26,8 @@ impl AuthzServiceImpl {
                 loop {
                     println!("health");
                     let mut new_data = Self::get_authorizations_from_api(url.as_str()).await?;
-                    cloned_authz.lock().await.clear();
-                    cloned_authz.lock().await.append(&mut new_data);
+                    cloned_authz.lock().unwrap().clear();
+                    cloned_authz.lock().unwrap().append(&mut new_data);
                     sleep(Duration::from_secs(2)).await;
                 }
             }
@@ -56,7 +55,10 @@ impl Drop for AuthzServiceImpl {
 }
 
 impl AuthzService for AuthzServiceImpl {
-    fn evaluate(&self, _resource: &str, _action: &str, _pseudo: &str) -> Result<bool, CustomError> {
-        Err(CustomError::new("pas encore impl"))
+    fn evaluate(&self, resource: &str, action: &str, pseudo: &str) -> Result<bool, CustomError> {
+        self.authorizations.lock().unwrap().iter()
+            .find(|card| card.resource.as_str() == resource && card.action == action && card.users.contains(&pseudo.to_string()))
+            .map(|_| Ok(true))
+            .unwrap_or(Err(CustomError::new("not authorised")))
     }
 }
