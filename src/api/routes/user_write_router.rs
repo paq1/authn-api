@@ -22,29 +22,36 @@ use rocket::futures::TryFutureExt;
 pub async fn create_new_account(
     user_repository: &State<UserRepositoryMongo>,
     password_service: &State<PasswordServiceImpl>,
-    jwt_token_service: &State<JwtTokenService>,
-    authz_service: &State<AuthzServiceImpl>,
-    request_headers: RequestHeaders,
+    _jwt_token_service: &State<JwtTokenService>,
+    _authz_service: &State<AuthzServiceImpl>,
+    _request_headers: RequestHeaders,
     create_command: Json<CreateAccountCommand>
 ) -> Result<Json<JsonDataResponse>, status::Custom<Json<JsonDataResponse>>> {
 
-    async {
-        authorised(
-            &request_headers,
-            jwt_token_service,
-            authz_service,
-            "urn:api:authn",
-            "create"
-        )
-    }
-        .and_then(|_| {
-            create_without_authz(
-                user_repository,
-                password_service,
-                create_command
-            )
-        })
-        .await
+    create_without_authz(
+        user_repository,
+        password_service,
+        create_command
+    ).await
+
+    // exemple :
+    // async {
+    //     authorised(
+    //         &request_headers,
+    //         jwt_token_service,
+    //         authz_service,
+    //         "urn:api:authn",
+    //         "create"
+    //     )
+    // }
+    //     .and_then(|_| {
+    //         create_without_authz(
+    //             user_repository,
+    //             password_service,
+    //             create_command
+    //         )
+    //     })
+    //     .await
 }
 
 async fn create_without_authz(
